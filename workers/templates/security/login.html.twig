@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<div class="container w-25 justify-content-center align-items-center d-flex" style="height: 600px;">
+    <form action="{{path('app_login')}}" class="col" method="post">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="mb-3">
+                Вы уже вошли как {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            </div>
+        {% endif %}
+
+        <h1 class="h3 align-middle mb-3 font-weight-normal">Авторизация</h1>
+        <div class="translate-middle-y p-2 align-middle  translate-middle-x">
+            <label for="inputUsername">Логин</label>
+            <input type="text" class="form-control" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
+        </div>
+        <div class="translate-middle-y p-2 align-middle translate-middle-x">
+            <label for="inputPassword">Пароль</label>
+            <input type="password" class="form-control" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+        </div>
+        <input type="hidden" name="_csrf_token"
+            value="{{ csrf_token('authenticate') }}"
+        >
+        <div class="translate-middle-y p-2 align-middle translate-middle-x">
+            <button class="btn btn-lg btn-success " type="submit">
+                Войти
+            </button>
+        </div>
+       <div class="container w-100 d-flex  justify-content-end align-items-end" >
+            
+                <a href="{{path('workers')}}" class="text-success">Войти как гость</a>
+            
+        </div>
+    </form> 
+</div>
+
+
+{% endblock %}

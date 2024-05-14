@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Работники{% endblock %}
+
+
+
+{% block javascripts %}
+    <script > 
+        
+    </script>
+{% endblock %}
+{% block body %}
+
+    <div class="">
+        <div class="card border-light bg-light">
+            <h1 class="card-header ">Работники</h1>   
+        </div>
+        <div class=" d-flex justify-content-between align-items-center">
+            <div class="table-responsive-xxl  w-50 mx-auto table-editable col-md-8">
+            
+                <table class="table table-hover text-center table-sm" id="workers">
+                
+                    <thead>
+                        <tr>
+                            
+                            <th class="text-center align-middle th-sm">
+                                <form class="text-success" id="num" action="{{path('workersSorted', {'id': 'num' })}}" method="post">
+                                    <input type="submit" class="btn btn mx-auto btn-rounded btn-sm my-0" style="background-color:transparent" value="Номер"></button>
+                                </form>
+                                
+                            </th>
+                            
+                            <th class="text-center align-middle th-sm">
+                                <form class="text-success" id="name" action="{{path('workersSorted', {'id': 'name' })}}" method="post">
+                                    <input type="submit" class="btn btn mx-auto btn-rounded btn-sm my-0" style="background-color:transparent" value="Имя"></button>
+                                </form>
+                            </th>
+                            <th class="text-center align-middle th-sm">
+                                <form class="text-success" id="lastname" action="{{path('workersSorted', {'id': 'lastname' })}}" method="post">
+                                    <input type="submit" class="btn btn mx-auto btn-rounded btn-sm my-0" style="background-color:transparent" value="Фамилия"></button>
+                                </form>
+                            </th>
+                            <th class="text-center align-middle th-sm">
+                                <form class="text-success" id="job" action="{{path('workersSorted', {'id': 'job' })}}" method="post">
+                                    <input type="submit" class="btn btn mx-auto btn-rounded btn-sm my-0" style="background-color:transparent" value="Должность"></button>
+                                </form>
+                            </th>
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <th class="text-center align-middle">
+                                 
+                            </th>
+                            <th class="text-center align-middle">
+                                
+                            </th>
+                            {% endif %}
+                        </tr> 
+                    </thead>
+                    
+                    {% for worker in workers %}
+                    
+                        <tr>
+                        
+                            <form action="{{path('updateWorker', {'id': worker.id})}}" method="post">
+                                <td class="mx-auto align-middle">{{ worker.number }}</td>
+                                
+                                <td class="align-middle" contenteditable="true" ><input type="text" id="name" name="name" class="input-group-text mx-auto" required value="{{ worker.name }}"></td>
+                                <td class="align-middle" contenteditable="true" ><input type="text" id="lastname" name="lastname" class="input-group-text mx-auto" required value="{{ worker.lastname }}"></input></td>
+                                <td class="align-middle" contenteditable="true" ><input type="text" id="job" name="job" class="input-group-text mx-auto" required value="{{ worker.job }}"></input></td>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                <td class="align-middle">
+                                    <div>
+                                        <input type="submit" class="btn btn-success mx-auto btn-rounded btn-sm my-0" value="Сохранить"></button>
+                                    </div>
+                                    
+                                </td>
+                                </form>
+                                <td class="align-middle">
+                                
+                                    <form  action="{{path('deleteWorker', {'id': worker.id})}}" method="post" class="m-0 align-middle">
+                                        <div>
+                                            <input type="submit" class="btn mx-auto btn-success btn-rounded btn-sm my-0 m-0" value="Удалить"></button>
+                                        </div>
+                                    </form>
+                                
+                            </td>
+                            {% endif %}
+
+                        </tr>
+                        
+                    {% endfor %}
+                </table>
+            </div>
+            {% if is_granted('ROLE_ADMIN') %}
+            <div class="left col-md-4 ">
+            <h5 class="card-header card border-light bg-light w-50">Добавление работника</h5> 
+                <form action="{{path('createWorker')}}" method="post">
+                    <div>
+                        <div class="form-group w-50">
+                            <label for="name">Имя:</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group w-50">
+                            <label for="lastname">Фамилия:</label>
+                            <input type="text" class="form-control" id="lastname" name="lastname" required>
+                        </div>
+                        <div class="form-group w-50 ">
+                            <label for="job">Должность:</label>
+                            <input type="text" class="form-control" id="job" name="job" required>
+                        </div>
+                        <input type="submit" class="btn btn-success btn-rounded btn-sm my-0 mx-auto w-50" value="Добавить"></button>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+
+{% endblock %}
